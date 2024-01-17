@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://boomgfwv1jsnx"]
+
+[ext_resource type="PackedScene" uid="uid://vx7hm6ew4tcq" path="res://Scenes/player.tscn" id="1_fxm0x"]
+[ext_resource type="Texture2D" uid="uid://cxm224krtorvk" path="res://Sprites/Player/_down attack.png" id="2_4q4cn"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_fxm0x")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_4q4cn")
