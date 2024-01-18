@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=3 uid="uid://vx7hm6ew4tcq"]
+[gd_scene load_steps=99 format=3 uid="uid://vx7hm6ew4tcq"]
 
 [ext_resource type="Script" path="res://Scripts/Player/player.gd" id="1_jd4l0"]
 [ext_resource type="Texture2D" uid="uid://cxm224krtorvk" path="res://Sprites/Player/_down attack.png" id="1_y4mee"]
@@ -18,6 +18,28 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qpsrn"]
 radius = 7.0
 height = 32.0
+
+[sub_resource type="Shader" id="Shader_3krcf"]
+code = "shader_type canvas_item;
+
+uniform bool whiten = false;
+uniform float mix_weight = 1.0;
+
+void fragment() {
+	vec4 texture_color = texture(TEXTURE, UV);
+	if (whiten) {
+		vec3 white = vec3(1, 1, 1);
+		vec3 whitened_texture_rgb = mix(texture_color.rgb, white, mix_weight);
+		COLOR = vec4(whitened_texture_rgb, COLOR.a);
+	} else {
+		COLOR = texture_color;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gy1ts"]
+shader = SubResource("Shader_3krcf")
+shader_parameter/whiten = false
+shader_parameter/mix_weight = 0.5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aj3yk"]
 atlas = ExtResource("1_y4mee")
@@ -802,6 +824,7 @@ script = ExtResource("1_jd4l0")
 shape = SubResource("CapsuleShape2D_qpsrn")
 
 [node name="Anim" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_gy1ts")
 sprite_frames = SubResource("SpriteFrames_do5i4")
 animation = &"idle_down"
 frame = 1

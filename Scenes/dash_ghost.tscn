@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://ratkfpneu0i3"]
+
+[ext_resource type="Script" path="res://Scripts/Player/dashGhost.gd" id="1_kgrr1"]
+
+[sub_resource type="Shader" id="Shader_3krcf"]
+code = "shader_type canvas_item;
+
+uniform bool whiten = false;
+uniform float mix_weight = 1.0;
+
+void fragment() {
+	vec4 texture_color = texture(TEXTURE, UV);
+	if (whiten) {
+		vec3 white = vec3(1, 1, 1);
+		vec3 whitened_texture_rgb = mix(texture_color.rgb, white, mix_weight);
+		COLOR = vec4(whitened_texture_rgb, COLOR.a);
+	} else {
+		COLOR = texture_color;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q4et3"]
+shader = SubResource("Shader_3krcf")
+shader_parameter/whiten = true
+shader_parameter/mix_weight = 0.75
+
+[node name="DashGhost" type="Sprite2D"]
+z_index = -1
+material = SubResource("ShaderMaterial_q4et3")
+position = Vector2(64, 48)
+scale = Vector2(0.578125, 0.632813)
+script = ExtResource("1_kgrr1")

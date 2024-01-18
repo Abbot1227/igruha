@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b320sjcy1mqvv"]
+
+[sub_resource type="Shader" id="Shader_3krcf"]
+code = "shader_type canvas_item;
+
+uniform bool whiten = false;
+uniform float mix_weight = 1.0;
+
+void fragment() {
+	vec4 texture_color = texture(TEXTURE, UV);
+	if (whiten) {
+		vec3 white = vec3(1, 1, 1);
+		vec3 whitened_texture_rgb = mix(texture_color.rgb, white, mix_weight);
+		COLOR = vec4(whitened_texture_rgb, COLOR.a);
+	} else {
+		COLOR = texture_color;
+	}
+}"
+
+[resource]
+shader = SubResource("Shader_3krcf")
+shader_parameter/whiten = true
+shader_parameter/mix_weight = 0.7
