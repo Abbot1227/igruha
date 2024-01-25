@@ -817,7 +817,8 @@ states/Walk/node = SubResource("AnimationNodeBlendSpace2D_j8ygo")
 states/Walk/position = Vector2(577, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_343gd"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_ypkgw"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_2ps8d")]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
 script = ExtResource("1_jd4l0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -831,6 +832,7 @@ frame = 1
 
 [node name="TestCamera" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
+position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 

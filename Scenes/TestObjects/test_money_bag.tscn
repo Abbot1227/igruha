@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://cm4sdmpnjr6r6"]
+
+[ext_resource type="Texture2D" uid="uid://bsxob7hms61dm" path="res://Sprites/TestSprites/Interactables/money_bag.png" id="1_6ojjh"]
+[ext_resource type="Script" path="res://Scripts/TestScripts/test_money_bag.gd" id="1_wpppp"]
+[ext_resource type="PackedScene" uid="uid://vu6rn1jc6154" path="res://Scenes/Interactions/interaction_area.tscn" id="2_3pn0g"]
+[ext_resource type="Texture2D" uid="uid://cipyta5nvw3qr" path="res://Sprites/TestSprites/New Piskel-1.png.png" id="4_twnw1"]
+
+[sub_resource type="Shader" id="Shader_sisos"]
+code = "shader_type canvas_item;
+
+uniform bool enable_outline = false;
+uniform vec4 outline_color: source_color;
+
+void fragment() {
+	vec4 texture_color = texture(TEXTURE, UV);
+	if (enable_outline) {
+		float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+		float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+		vec4 sprite_color = texture(TEXTURE, UV);
+		float alpha = -4.0 * sprite_color.a;
+		alpha += texture(TEXTURE, UV + vec2(size_x, 0)).a;
+		alpha += texture(TEXTURE, UV + vec2(-size_x, 0)).a;
+		alpha += texture(TEXTURE, UV + vec2(0, size_y)).a;
+		alpha += texture(TEXTURE, UV + vec2(0, -size_y)).a;
+		vec4 final_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+		COLOR = vec4(final_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	} else {
+		COLOR = texture_color;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4016d"]
+resource_local_to_scene = true
+shader = SubResource("Shader_sisos")
+shader_parameter/enable_outline = false
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x8eb2"]
+radius = 17.0
+
+[node name="TestMoneyBag" type="Node2D"]
+script = ExtResource("1_wpppp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_4016d")
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_6ojjh")
+
+[node name="InteractionArea" parent="." instance=ExtResource("2_3pn0g")]
+action_name = "pick up"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+visible = false
+shape = SubResource("CircleShape2D_x8eb2")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(1, 3)
+texture = ExtResource("4_twnw1")
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]

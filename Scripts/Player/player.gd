@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-@export var speed: float = 100
+@export var speed: float = 85
 var dash_speed: float = speed * 3
 const dash_duration: float = 0.2
 
@@ -25,6 +25,8 @@ func _physics_process(_delta: float) -> void:
 		var move_speed: float = dash_speed if dash.is_dashing() else speed
 		
 		velocity = direction * move_speed
+		# velocity.x = move_toward(velocity.x, direction.x * move_speed, 10)
+		# velocity.y = move_toward(velocity.y, direction.y * move_speed, 10)
 	else:
 		animation_state.travel("Idle")
 		velocity = Vector2.ZERO
