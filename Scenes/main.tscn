@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://boomgfwv1jsnx"]
+[gd_scene load_steps=12 format=3 uid="uid://boomgfwv1jsnx"]
 
 [ext_resource type="PackedScene" uid="uid://vx7hm6ew4tcq" path="res://Scenes/player.tscn" id="1_fxm0x"]
 [ext_resource type="Texture2D" uid="uid://b56cj2g6gae52" path="res://Sprites/Dungeon_Tileset.png" id="2_5ydum"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dawb03uvl2b8g" path="res://Sprites/TestSprites/Interactables/Icon1.png" id="4_xefuo"]
 [ext_resource type="Texture2D" uid="uid://c76yal03fujcu" path="res://Sprites/TestSprites/Interactables/Icon13.png" id="6_rmcpb"]
 [ext_resource type="Texture2D" uid="uid://dmpnqblm2lxvv" path="res://Sprites/TestSprites/Interactables/Icon20.png" id="7_ysf0q"]
+[ext_resource type="PackedScene" uid="uid://ddce8d61dk1i6" path="res://Resources/abstract_item.tscn" id="9_o3kbi"]
+[ext_resource type="Texture2D" uid="uid://v3ldh3shpqv3" path="res://Sprites/TestSprites/background.png" id="10_87v6r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hmps"]
 texture = ExtResource("2_5ydum")
@@ -228,3 +230,12 @@ item_sprite = ExtResource("6_rmcpb")
 [node name="TestMoneyBag4" parent="." instance=ExtResource("3_3fnbp")]
 position = Vector2(33, 21)
 item_sprite = ExtResource("7_ysf0q")
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(575, -74)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_87v6r")
+
+[node name="AbstractItem" parent="." instance=ExtResource("9_o3kbi")]
+position = Vector2(48, -38)

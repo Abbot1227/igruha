@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://djbx635tmsjqx"]
+
+[ext_resource type="Script" path="res://Resources/ItemDatabase.gd" id="1_5blic"]
+
+[node name="ItemDatabase" type="Node2D"]
+script = ExtResource("1_5blic")
+item_folder = "res://Resources/TestItems"

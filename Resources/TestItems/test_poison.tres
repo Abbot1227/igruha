@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://lcwoam3ixp1x"]
+
+[ext_resource type="Texture2D" uid="uid://d1a84uo53fwcr" path="res://Sprites/TestSprites/Interactables/Icon21.png" id="1_xjhb7"]
+[ext_resource type="Script" path="res://Resources/Item.gd" id="2_w1ctu"]
+
+[resource]
+script = ExtResource("2_w1ctu")
+icon = ExtResource("1_xjhb7")
+name = "Poison"
+type = "Pickuble"
+description = "Bottle with weird poison"
