@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw61qdxhorybb"]
+
+[ext_resource type="Script" path="res://Scripts/UI/menu.gd" id="1_pesa5"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pesa5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.5
+anchor_right = 0.7
+anchor_bottom = 0.5
+offset_top = -85.5
+offset_bottom = 85.5
+grow_vertical = 2
+alignment = 1
+
+[node name="Continue" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Продолжить"
+
+[node name="Start" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Начать игру"
+
+[node name="Load" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Загрузить"
+
+[node name="Settings" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Настройки"
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Выйти из игры"
+
+[connection signal="pressed" from="VBoxContainer/Continue" to="." method="_on_continue_button_pressed"]
+[connection signal="button_up" from="VBoxContainer/Start" to="." method="_on_start_button_up"]
+[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Load" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_button_pressed"]

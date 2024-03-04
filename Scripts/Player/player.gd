@@ -10,7 +10,7 @@ const dash_duration: float = 0.2
 @onready var animation_state = animation_tree.get("parameters/playback")
 @onready var dash: Node2D = $Dash
 
-enum states {MOVE, ATTACK}
+enum states {MOVE, JUMP, ATTACK}
 var current_state = states.MOVE
 
 var direction: Vector2
@@ -22,6 +22,8 @@ func _physics_process(_delta: float) -> void:
 	match current_state:
 		states.MOVE:
 			move()
+		states.JUMP:
+			jump()
 		states.ATTACK:
 			attack()
 
@@ -51,6 +53,15 @@ func move() -> void:
 	if Input.is_action_just_pressed("attack"):
 		current_state = states.ATTACK
 	
+	if Input.is_action_just_pressed("jump") && direction != Vector2.ZERO:
+		current_state = states.JUMP
+	
+	move_and_slide()
+
+func jump() -> void:
+	animation_state.travel("Jump")
+	velocity = direction * speed
+	
 	move_and_slide()
 	
 func attack() -> void:
@@ -60,3 +71,9 @@ func attack() -> void:
 
 func on_states_reset() -> void:
 	current_state = states.MOVE
+
+func clear_collision() -> void:
+	$CollisionShape2D.disabled = true
+
+func create_collision() -> void:
+	$CollisionShape2D.disabled = false
