@@ -28,5 +28,4 @@ shader_parameter/mix_weight = 0.75
 z_index = -1
 material = SubResource("ShaderMaterial_q4et3")
 position = Vector2(64, 48)
-scale = Vector2(0.578125, 0.632813)
 script = ExtResource("1_kgrr1")

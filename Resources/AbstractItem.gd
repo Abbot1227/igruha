@@ -1,13 +1,6 @@
 extends Sprite2D
-class_name AbstractItem
 
-var stats: Item = null:
-	set(value):
-		stats = value
-		
-		if value != null:
-			texture = value.icon
-			
 func _ready() -> void:
-	# testing
-	stats = ItemDatabase.get_item("test_poison")
+	var tween: Tween = self.create_tween().set_loops()
+	tween.tween_property(self, "position", Vector2(0, -3), 0.8).as_relative()
+	tween.tween_property(self, "position", Vector2(0, 3), 0.8).as_relative()
