@@ -9,6 +9,7 @@ const dash_duration: float = 0.2
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_state = animation_tree.get("parameters/playback")
+@onready var dust_particle: GPUParticles2D = $GPUParticles2D
 
 enum states {MOVE, JUMP, ATTACK}
 var current_state = states.MOVE
@@ -75,14 +76,22 @@ func jump() -> void:
 	
 	move_and_slide()
 	
+	
 func attack() -> void:
 	animation_state.travel(random_attack)
+
 
 func on_states_reset() -> void:
 	current_state = states.MOVE
 
+
 func clear_collision() -> void:
 	$CollisionShape2D.disabled = true
 
+
 func create_collision() -> void:
 	$CollisionShape2D.disabled = false
+
+	
+func on_jump_end() -> void:
+	dust_particle.emitting = true
