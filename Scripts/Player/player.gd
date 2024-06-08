@@ -7,9 +7,12 @@ const dash_duration: float = 0.2
 
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var shadow_sprite: Sprite2D = $Sprite2D2
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_state = animation_tree.get("parameters/playback")
 @onready var dust_particle: GPUParticles2D = $GPUParticles2D
+@onready var jump_dust2: Node2D = $Dust2
+@onready var jump_dust2_anim: AnimationPlayer = $Dust2/AnimationPlayer
 
 enum states {MOVE, JUMP, ATTACK}
 var current_state = states.MOVE
@@ -23,6 +26,7 @@ func _ready() -> void:
 	pass
 
 func _physics_process(_delta: float) -> void:
+	shadow_sprite.frame = sprite.frame
 	match current_state:
 		states.MOVE:
 			move()
@@ -94,4 +98,10 @@ func create_collision() -> void:
 
 	
 func on_jump_end() -> void:
-	dust_particle.emitting = true
+	#dust_particle.emitting = true
+	jump_dust2.show()
+	jump_dust2_anim.play("play")
+
+
+func reset_dust() -> void:
+	jump_dust2.hide()

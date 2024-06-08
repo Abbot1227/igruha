@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://boomgfwv1jsnx"]
+[gd_scene load_steps=59 format=3 uid="uid://boomgfwv1jsnx"]
 
 [ext_resource type="Texture2D" uid="uid://b56cj2g6gae52" path="res://Sprites/Dungeon_Tileset.png" id="2_5ydum"]
 [ext_resource type="PackedScene" uid="uid://cm4sdmpnjr6r6" path="res://Scenes/TestObjects/test_money_bag.tscn" id="3_3fnbp"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://Scenes/CharacterBody2D2.gd" id="12_clwyv"]
 [ext_resource type="Texture2D" uid="uid://dl2bekre7c1j2" path="res://Sprites/Effects/Blood/Blood.png" id="12_s321o"]
 [ext_resource type="Texture2D" uid="uid://dx36g37raiknl" path="res://Sprites/Effects/Blood/Blood2.png" id="13_of051"]
+[ext_resource type="Shader" path="res://Shaders/test_shaders/light_only_blur_shadow.gdshader" id="17_d7tkt"]
 [ext_resource type="Texture2D" uid="uid://eeog4jxkdy3c" path="res://Sprites/Effects/Blood/Blood3.png" id="17_msw74"]
 [ext_resource type="Texture2D" uid="uid://dah6lgx3gugme" path="res://Sprites/Effects/Blood/Blood4.png" id="18_mrvhk"]
 [ext_resource type="Texture2D" uid="uid://y6dwx4uogf64" path="res://Sprites/Effects/Blood/Blood5.png" id="19_m52uj"]
@@ -308,6 +309,10 @@ radius = 17.0294
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5xvdn"]
 light_mode = 2
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4aulu"]
+shader = ExtResource("17_d7tkt")
+shader_parameter/strength = 5
+
 [sub_resource type="Animation" id="Animation_ilcl5"]
 length = 0.001
 tracks/0/type = "value"
@@ -348,6 +353,9 @@ _data = {
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4l7xp"]
 radius = 17.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xcccp"]
+light_mode = 2
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4q6qo"]
 polygon = PackedVector2Array(-102, 48, -102, 62, 136, 63, 136, 48)
@@ -563,6 +571,8 @@ z_index = 13
 scale = Vector2(1.16, 1.16)
 blend_mode = 2
 shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 1.0
 texture = ExtResource("3_e250v")
 
 [node name="Light" type="Node2D" parent="Player"]
@@ -669,6 +679,17 @@ hframes = 2
 vframes = 2
 frame = 1
 
+[node name="Sprite2D3" type="Sprite2D" parent="Spider"]
+modulate = Color(0, 0, 0, 0.321569)
+material = SubResource("ShaderMaterial_4aulu")
+position = Vector2(58, -50)
+rotation = -0.482229
+scale = Vector2(0.08, 0.07)
+texture = ExtResource("25_q842e")
+hframes = 2
+vframes = 2
+frame = 1
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Spider"]
 libraries = {
 "": SubResource("AnimationLibrary_hg3xk")
@@ -682,6 +703,61 @@ position = Vector2(67, -51)
 shape = SubResource("CircleShape2D_4l7xp")
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="Spider"]
+libraries = {
+"": SubResource("AnimationLibrary_e5vep")
+}
+
+[node name="Spider3" type="CharacterBody2D" parent="." groups=["enemy"]]
+position = Vector2(-12, -58)
+script = ExtResource("12_clwyv")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Spider3"]
+material = SubResource("CanvasItemMaterial_538re")
+position = Vector2(67, -52)
+scale = Vector2(0.079, 0.077)
+texture = ExtResource("12_s321o")
+hframes = 5
+vframes = 5
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spider3"]
+position = Vector2(67, -51)
+shape = SubResource("CircleShape2D_bjdu5")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Spider3"]
+modulate = Color(0, 0, 0, 0.321569)
+z_index = -2
+material = SubResource("ShaderMaterial_4aulu")
+position = Vector2(60, -48)
+rotation = -0.482229
+scale = Vector2(0.08, 0.07)
+texture = ExtResource("25_q842e")
+hframes = 2
+vframes = 2
+frame = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Spider3"]
+material = SubResource("CanvasItemMaterial_xcccp")
+position = Vector2(68, -51)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_q842e")
+hframes = 2
+vframes = 2
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Spider3"]
+libraries = {
+"": SubResource("AnimationLibrary_hg3xk")
+}
+autoplay = "walk_down"
+
+[node name="Area2D" type="Area2D" parent="Spider3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spider3/Area2D"]
+position = Vector2(67, -51)
+shape = SubResource("CircleShape2D_4l7xp")
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Spider3"]
 libraries = {
 "": SubResource("AnimationLibrary_e5vep")
 }
@@ -725,49 +801,6 @@ position = Vector2(67, -51)
 shape = SubResource("CircleShape2D_4l7xp")
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="Spider2"]
-libraries = {
-"": SubResource("AnimationLibrary_e5vep")
-}
-
-[node name="Spider3" type="CharacterBody2D" parent="." groups=["enemy"]]
-position = Vector2(-5, -53)
-script = ExtResource("12_clwyv")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Spider3"]
-material = SubResource("CanvasItemMaterial_538re")
-position = Vector2(67, -52)
-scale = Vector2(0.079, 0.077)
-texture = ExtResource("12_s321o")
-hframes = 5
-vframes = 5
-frame = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Spider3"]
-position = Vector2(67, -51)
-shape = SubResource("CircleShape2D_bjdu5")
-
-[node name="Sprite2D" type="Sprite2D" parent="Spider3"]
-material = SubResource("CanvasItemMaterial_5xvdn")
-position = Vector2(68, -51)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("25_q842e")
-hframes = 2
-vframes = 2
-frame = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Spider3"]
-libraries = {
-"": SubResource("AnimationLibrary_hg3xk")
-}
-autoplay = "walk_down"
-
-[node name="Area2D" type="Area2D" parent="Spider3"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Spider3/Area2D"]
-position = Vector2(67, -51)
-shape = SubResource("CircleShape2D_4l7xp")
-
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="Spider3"]
 libraries = {
 "": SubResource("AnimationLibrary_e5vep")
 }
@@ -849,12 +882,6 @@ libraries = {
 }
 autoplay = "blood102"
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
-offset_left = 167.0
-offset_top = 3.0
-offset_right = 207.0
-offset_bottom = 43.0
-
 [connection signal="area_entered" from="Spider/Area2D" to="Spider" method="_on_area_2d_area_entered"]
-[connection signal="area_entered" from="Spider2/Area2D" to="Spider2" method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Spider3/Area2D" to="Spider3" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Spider2/Area2D" to="Spider2" method="_on_area_2d_area_entered"]
