@@ -7,12 +7,13 @@ const dash_duration: float = 0.2
 
 
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var shadow_sprite: Sprite2D = $Sprite2D2
+@onready var shadow_sprite: Sprite2D = $FakeShadow
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_state = animation_tree.get("parameters/playback")
-@onready var dust_particle: GPUParticles2D = $GPUParticles2D
+@onready var dust_particle: GPUParticles2D = $JumpDustParticles
 @onready var jump_dust2: Node2D = $Dust2
 @onready var jump_dust2_anim: AnimationPlayer = $Dust2/AnimationPlayer
+
 
 enum states {MOVE, JUMP, ATTACK}
 var current_state = states.MOVE

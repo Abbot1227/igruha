@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://u325eln1xqki"]
+
+[ext_resource type="Texture2D" uid="uid://q1igw0wm40or" path="res://splat.png" id="1_r3dia"]
+
+[node name="Light" type="PointLight2D"]
+z_index = 13
+scale = Vector2(1.16, 1.16)
+blend_mode = 2
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 1.0
+texture = ExtResource("1_r3dia")

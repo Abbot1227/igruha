@@ -1,0 +1,158 @@
+[gd_scene load_steps=9 format=3 uid="uid://bhd8tewx3b4jf"]
+
+[ext_resource type="Texture2D" uid="uid://lc6x52lf7ri3" path="res://Game/Enemies/Spider/spider.png" id="1_bgaxh"]
+
+[sub_resource type="Shader" id="Shader_w5cnk"]
+code = "shader_type canvas_item;
+
+//qrender_mode light_only;
+
+uniform int strength: hint_range(1, 512) = 2;
+varying vec4 modulate;
+void vertex()
+{
+    modulate = COLOR;
+}
+
+vec4 blur_size(sampler2D tex,vec2 fragCoord, vec2 pixelSize) {
+    
+    vec4 color = vec4(0.,0.,0.,0.);
+    float strengthFloat = float(strength);
+
+    vec2 pixel = fragCoord/pixelSize;
+    int x_min = max(int(pixel.x-strengthFloat), 0);
+    int x_max = min(int(pixel.x+strengthFloat), int(1./pixelSize.x));
+    int y_min = max(int(pixel.y-strengthFloat), 0);
+    int y_max = min(int(pixel.y+strengthFloat), int(1./pixelSize.y));
+
+    int count =0;
+
+    // Sum the pixels colors
+    for(int x=x_min; x <= x_max; x++) {
+        for(int y = y_min; y <= y_max; y++) {           
+            color += texture(tex, vec2(float(x), float(y)) * pixelSize);
+            count++;
+        }
+    }
+    
+    // Divide the color by the number of colors you summed up
+    color /= float(count);
+    
+    return color * modulate;
+}
+
+void fragment() {
+	COLOR = blur_size(TEXTURE,UV,TEXTURE_PIXEL_SIZE);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6kolp"]
+shader = SubResource("Shader_w5cnk")
+shader_parameter/strength = 5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uohme"]
+radius = 121.066
+
+[sub_resource type="Animation" id="Animation_4w00b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FakeShadow:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_g2j1c"]
+resource_name = "walk"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FakeShadow:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_shykf"]
+_data = {
+"RESET": SubResource("Animation_4w00b"),
+"walk": SubResource("Animation_g2j1c")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1tgfu"]
+radius = 159.003
+
+[node name="Spider" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_bgaxh")
+hframes = 2
+vframes = 2
+frame = 1
+
+[node name="FakeShadow" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.152941)
+z_index = -1
+material = SubResource("ShaderMaterial_6kolp")
+position = Vector2(-31, 5)
+rotation = -0.314592
+scale = Vector2(1.135, 0.765)
+texture = ExtResource("1_bgaxh")
+hframes = 2
+vframes = 2
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, -42)
+shape = SubResource("CircleShape2D_uohme")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_shykf")
+}
+autoplay = "walk"
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(8, -35)
+shape = SubResource("CircleShape2D_1tgfu")
+debug_color = Color(0.818869, 0.799711, 1.92523e-06, 0.42)

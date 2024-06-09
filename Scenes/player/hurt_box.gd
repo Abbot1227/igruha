@@ -1,4 +1,4 @@
-class_name HurtBox extends Node2D
+class_name HurtBox extends Area2D
 
 
 @export var damage: int = 1
@@ -12,3 +12,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func _on_area_entered(area: Area2D) -> void:
+	# Add if area can take damage function
+	print("hurtbox hits")
+	if area is HitBox:
+		area.take_damage(damage)

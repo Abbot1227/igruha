@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c64k8j8qbjybw"]
+
+[ext_resource type="Texture2D" uid="uid://dl2bekre7c1j2" path="res://Game/Blood/Blood1.png" id="1_gjpwe"]
+
+[sub_resource type="Animation" id="Animation_s0744"]
+resource_name = "splash"
+length = 2.5
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u17bg"]
+_data = {
+"splash": SubResource("Animation_s0744")
+}
+
+[node name="Blood1" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_gjpwe")
+hframes = 5
+vframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_u17bg")
+}

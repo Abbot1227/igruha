@@ -1,9 +1,13 @@
-[gd_scene load_steps=80 format=3 uid="uid://vx7hm6ew4tcq"]
+[gd_scene load_steps=84 format=3 uid="uid://vx7hm6ew4tcq"]
 
 [ext_resource type="Script" path="res://Scripts/Player/player.gd" id="1_jd4l0"]
 [ext_resource type="Shader" path="res://Shaders/test_shaders/fake_shadow.gdshader" id="2_2ilt0"]
+[ext_resource type="Script" path="res://Scripts/Weapons/Weapon.gd" id="4_3whn1"]
 [ext_resource type="Texture2D" uid="uid://h6dneusoejwd" path="res://Sprites/Player/player.png" id="4_jsabj"]
+[ext_resource type="Script" path="res://Scenes/TestCameraShake.gd" id="4_kjon7"]
 [ext_resource type="Texture2D" uid="uid://dhobdujcc8sh2" path="res://Sprites/Effects/JumpDust/dust2.png" id="5_a7pvp"]
+[ext_resource type="PackedScene" uid="uid://u325eln1xqki" path="res://Scenes/player/light.tscn" id="5_s3nqg"]
+[ext_resource type="AudioStream" uid="uid://2rqmxxyrsaau" path="res://Audio/mb.mp3" id="8_c521n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hx25b"]
 shader = ExtResource("2_2ilt0")
@@ -1077,10 +1081,11 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("1_jd4l0")
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
+[node name="FakeShadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.152941)
 z_index = -4
 material = SubResource("ShaderMaterial_hx25b")
@@ -1104,6 +1109,7 @@ process_callback = 0
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+script = ExtResource("4_kjon7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -1124,15 +1130,18 @@ parameters/Walk/blend_position = Vector2(0.0116649, -0.726115)
 position = Vector2(1, 10)
 shape = SubResource("RectangleShape2D_8jcme")
 
-[node name="Weapon" type="Area2D" parent="."]
+[node name="Weapon" type="Area2D" parent="." groups=["weapon"]]
 position = Vector2(-13, -2)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("4_3whn1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon"]
 position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_abeqs")
 disabled = true
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="JumpDustParticles" type="GPUParticles2D" parent="."]
 z_index = -1
 position = Vector2(1, 15)
 emitting = false
@@ -1157,3 +1166,12 @@ frame = 1
 libraries = {
 "": SubResource("AnimationLibrary_g3qw4")
 }
+
+[node name="Light" parent="." instance=ExtResource("5_s3nqg")]
+
+[node name="TemporaryAudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_c521n")
+volume_db = 3.685
+autoplay = true
+
+[connection signal="area_entered" from="Weapon" to="Weapon" method="_on_area_entered"]
