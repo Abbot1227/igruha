@@ -10,7 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://2rqmxxyrsaau" path="res://Audio/mb.mp3" id="8_c521n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_al1op"]
-radius = 39.3192
+radius = 177.102
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hx25b"]
 shader = ExtResource("2_2ilt0")
@@ -1089,6 +1089,9 @@ collision_layer = 2
 script = ExtResource("1_jd4l0")
 
 [node name="ZoneTriggerr" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 0
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ZoneTriggerr"]
 shape = SubResource("CircleShape2D_al1op")

@@ -22,6 +22,8 @@ zone_path = "res://Game/TestLevels/test_level_1.tscn"
 
 [node name="LoadTrigger" type="Area2D" parent="LevelLoader/Level1"]
 position = Vector2(0, 1)
+collision_layer = 512
+collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelLoader/Level1/LoadTrigger"]
 position = Vector2(21.75, 40)
@@ -33,6 +35,8 @@ script = ExtResource("2_kf7ve")
 zone_path = "res://Game/TestLevels/test_level_1.tscn"
 
 [node name="LoadTrigger" type="Area2D" parent="LevelLoader/Level2"]
+collision_layer = 512
+collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelLoader/Level2/LoadTrigger"]
 position = Vector2(9, -52)
@@ -40,5 +44,5 @@ shape = SubResource("RectangleShape2D_kjb5c")
 debug_color = Color(0.72443, 0.460735, 0.3446, 0.42)
 
 [node name="Player" parent="." instance=ExtResource("4_o6p5h")]
-position = Vector2(-299, 96)
+position = Vector2(54, 324)
 scale = Vector2(0.63, 0.63)

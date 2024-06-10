@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://5erb6borah5i"]
+[gd_scene load_steps=31 format=3 uid="uid://5erb6borah5i"]
 
 [ext_resource type="Texture2D" uid="uid://b56cj2g6gae52" path="res://Sprites/Dungeon_Tileset.png" id="1_f6iqu"]
 [ext_resource type="Texture2D" uid="uid://bpgcokyatmnfh" path="res://Sprites/trail.png" id="2_iv8on"]
@@ -6,6 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://dl2bekre7c1j2" path="res://Game/Blood/Blood1.png" id="4_c8ddl"]
 [ext_resource type="Texture2D" uid="uid://c0hfp8umc834y" path="res://Sprites/TestSprites/enemy/spider.png" id="5_vq7to"]
 [ext_resource type="Shader" path="res://Shaders/test_shaders/light_only_blur_shadow.gdshader" id="6_ygt46"]
+[ext_resource type="Texture2D" uid="uid://b6g6uup21r62u" path="res://Sprites/house2.png" id="7_geb0j"]
+[ext_resource type="Texture2D" uid="uid://cb32lronc3nky" path="res://Sprites/house1.png" id="8_uxv68"]
+[ext_resource type="Shader" path="res://Scenes/test_house.gdshader" id="9_si8eu"]
+[ext_resource type="Texture2D" uid="uid://bggx555qd5kyb" path="res://Sprites/house.png" id="10_k7vb3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hmps"]
 texture = ExtResource("1_f6iqu")
@@ -1292,6 +1296,107 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_tqshb"]
 radius = 17.0
 
+[sub_resource type="Shader" id="Shader_1cusl"]
+code = "shader_type canvas_item;
+
+uniform int strength: hint_range(1, 512) = 2;
+varying vec4 modulate;
+void vertex()
+{
+    modulate = COLOR;
+}
+vec4 blur_size(sampler2D tex,vec2 fragCoord, vec2 pixelSize) {
+    
+    vec4 color = vec4(0.,0.,0.,0.);
+    float strengthFloat = float(strength);
+
+    vec2 pixel = fragCoord/pixelSize;
+    int x_min = max(int(pixel.x-strengthFloat), 0);
+    int x_max = min(int(pixel.x+strengthFloat), int(1./pixelSize.x));
+    int y_min = max(int(pixel.y-strengthFloat), 0);
+    int y_max = min(int(pixel.y+strengthFloat), int(1./pixelSize.y));
+
+    int count =0;
+
+    // Sum the pixels colors
+    for(int x=x_min; x <= x_max; x++) {
+        for(int y = y_min; y <= y_max; y++) {           
+            color += texture(tex, vec2(float(x), float(y)) * pixelSize);
+            count++;
+        }
+    }
+    
+    // Divide the color by the number of colors you summed up
+    color /= float(count);
+    
+    return color * modulate;
+}
+
+void fragment() {	
+    COLOR = blur_size(TEXTURE,UV,TEXTURE_PIXEL_SIZE);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vu4wt"]
+shader = SubResource("Shader_1cusl")
+shader_parameter/strength = 6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yvv6c"]
+shader = ExtResource("9_si8eu")
+shader_parameter/lightning_color = Color(0.97, 0.89, 0.85, 0.65)
+shader_parameter/size = 0.005
+shader_parameter/width = 0.4
+shader_parameter/speed = 1.0
+shader_parameter/cycle = 0.17
+shader_parameter/ratio = 3.0
+shader_parameter/time_shift = 0.5
+shader_parameter/strike_count = 5
+shader_parameter/strike_delay = 0.25
+shader_parameter/glow_intensity = 0.9
+
+[sub_resource type="Shader" id="Shader_3k5aa"]
+code = "shader_type canvas_item;
+
+uniform int strength: hint_range(1, 512) = 2;
+varying vec4 modulate;
+void vertex()
+{
+    modulate = COLOR;
+}
+vec4 blur_size(sampler2D tex,vec2 fragCoord, vec2 pixelSize) {
+    
+    vec4 color = vec4(0.,0.,0.,0.);
+    float strengthFloat = float(strength);
+
+    vec2 pixel = fragCoord/pixelSize;
+    int x_min = max(int(pixel.x-strengthFloat), 0);
+    int x_max = min(int(pixel.x+strengthFloat), int(1./pixelSize.x));
+    int y_min = max(int(pixel.y-strengthFloat), 0);
+    int y_max = min(int(pixel.y+strengthFloat), int(1./pixelSize.y));
+
+    int count =0;
+
+    // Sum the pixels colors
+    for(int x=x_min; x <= x_max; x++) {
+        for(int y = y_min; y <= y_max; y++) {           
+            color += texture(tex, vec2(float(x), float(y)) * pixelSize);
+            count++;
+        }
+    }
+    
+    // Divide the color by the number of colors you summed up
+    color /= float(count);
+    
+    return color * modulate;
+}
+
+void fragment() {	
+    COLOR = blur_size(TEXTURE,UV,TEXTURE_PIXEL_SIZE);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4uh1w"]
+shader = SubResource("Shader_3k5aa")
+shader_parameter/strength = 6
+
 [node name="TestLevel1" type="Node2D"]
 
 [node name="TestTileMap" type="TileMap" parent="."]
@@ -1361,5 +1466,42 @@ collision_mask = 2
 position = Vector2(66.7111, -50.8294)
 shape = SubResource("CircleShape2D_tqshb")
 debug_color = Color(0.818869, 0.799711, 1.92523e-06, 0.42)
+
+[node name="House2" type="Sprite2D" parent="."]
+z_index = 8
+position = Vector2(-49, -105)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("7_geb0j")
+
+[node name="FakeShadow" type="Sprite2D" parent="House2"]
+modulate = Color(0, 0, 0, 0.152941)
+z_index = -7
+material = SubResource("ShaderMaterial_vu4wt")
+position = Vector2(-110, -60)
+rotation = -0.119976
+scale = Vector2(1.065, 0.825)
+texture = ExtResource("7_geb0j")
+
+[node name="House" type="Sprite2D" parent="."]
+z_index = 8
+position = Vector2(50, -2)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("8_uxv68")
+
+[node name="Lighting" type="Sprite2D" parent="House"]
+z_index = 8
+material = SubResource("ShaderMaterial_yvv6c")
+position = Vector2(-20.0001, -98.25)
+scale = Vector2(0.891986, 0.774914)
+texture = ExtResource("10_k7vb3")
+
+[node name="FakeShadow" type="Sprite2D" parent="House"]
+modulate = Color(0, 0, 0, 0.152941)
+z_index = -7
+material = SubResource("ShaderMaterial_4uh1w")
+position = Vector2(-110, -60)
+rotation = -0.119976
+scale = Vector2(1.065, 0.825)
+texture = ExtResource("10_k7vb3")
 
 [connection signal="area_entered" from="Spider/HurtBox" to="Spider" method="_on_hurt_box_area_entered"]

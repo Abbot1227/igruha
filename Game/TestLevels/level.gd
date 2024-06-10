@@ -39,13 +39,13 @@ func _ready():
 
 
 func on_level_enter(_area: Area2D):
-	print(zone_name)
+	print("entering: ", zone_name, "\npath: ", zone_path)
 	print(zone_path)
 	emit_signal("zone_entered", zone_name, zone_path)
 	
 	
 func on_level_exit(_area: Area2D):
-	print(zone_name)
+	print("leaving:", zone_name)
 	emit_signal("zone_exited", zone_name)
 
 
