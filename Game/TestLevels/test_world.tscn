@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkrk5ojca5m58"]
+
+[ext_resource type="Script" path="res://Game/Global/level_loader.gd" id="1_uw5eg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2brd"]
+size = Vector2(32153, 20541)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="LevelLoader" type="Node" parent="."]
+script = ExtResource("1_uw5eg")
+
+[node name="Node2D" type="Node2D" parent="LevelLoader"]
+
+[node name="LoadTrigger" type="Area2D" parent="LevelLoader/Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelLoader/Node2D/LoadTrigger"]
+position = Vector2(16066.5, 10260.5)
+shape = SubResource("RectangleShape2D_e2brd")
