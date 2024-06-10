@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 InteractionManager="*res://Scenes/Interactions/interaction_manager.tscn"
 ItemDatabase="*res://Resources/item_database.tscn"
+LevelLoadManager="*res://Game/Global/level_loader.gd"
 
 [display]
 

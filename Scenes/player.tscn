@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3 uid="uid://vx7hm6ew4tcq"]
+[gd_scene load_steps=85 format=3 uid="uid://vx7hm6ew4tcq"]
 
 [ext_resource type="Script" path="res://Scripts/Player/player.gd" id="1_jd4l0"]
 [ext_resource type="Shader" path="res://Shaders/test_shaders/fake_shadow.gdshader" id="2_2ilt0"]
@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://dhobdujcc8sh2" path="res://Sprites/Effects/JumpDust/dust2.png" id="5_a7pvp"]
 [ext_resource type="PackedScene" uid="uid://u325eln1xqki" path="res://Scenes/player/light.tscn" id="5_s3nqg"]
 [ext_resource type="AudioStream" uid="uid://2rqmxxyrsaau" path="res://Audio/mb.mp3" id="8_c521n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_al1op"]
+radius = 39.3192
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hx25b"]
 shader = ExtResource("2_2ilt0")
@@ -1085,7 +1088,13 @@ y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("1_jd4l0")
 
-[node name="FakeShadow" type="Sprite2D" parent="."]
+[node name="ZoneTriggerr" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZoneTriggerr"]
+shape = SubResource("CircleShape2D_al1op")
+debug_color = Color(0.888105, 0.328301, 0, 0.42)
+
+[node name="FakeShadow" type="Sprite2D" parent="." groups=["Player"]]
 modulate = Color(0, 0, 0, 0.152941)
 z_index = -4
 material = SubResource("ShaderMaterial_hx25b")
@@ -1104,7 +1113,7 @@ vframes = 11
 frame = 2
 
 [node name="TestCamera" type="Camera2D" parent="."]
-zoom = Vector2(8, 8)
+zoom = Vector2(4, 4)
 process_callback = 0
 position_smoothing_enabled = true
 drag_horizontal_enabled = true

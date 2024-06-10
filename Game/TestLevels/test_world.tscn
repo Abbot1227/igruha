@@ -1,19 +1,44 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkrk5ojca5m58"]
+[gd_scene load_steps=6 format=3 uid="uid://dkrk5ojca5m58"]
 
 [ext_resource type="Script" path="res://Game/Global/level_loader.gd" id="1_uw5eg"]
+[ext_resource type="Script" path="res://Game/TestLevels/level.gd" id="2_kf7ve"]
+[ext_resource type="PackedScene" uid="uid://vx7hm6ew4tcq" path="res://Scenes/player.tscn" id="4_o6p5h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e2brd"]
-size = Vector2(32153, 20541)
+size = Vector2(446.5, 414)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kjb5c"]
+size = Vector2(535, 313)
 
 [node name="Node2D" type="Node2D"]
 
 [node name="LevelLoader" type="Node" parent="."]
 script = ExtResource("1_uw5eg")
 
-[node name="Node2D" type="Node2D" parent="LevelLoader"]
+[node name="Level1" type="Node2D" parent="LevelLoader"]
+position = Vector2(67, -36)
+script = ExtResource("2_kf7ve")
+zone_path = "res://Game/TestLevels/test_level_1.tscn"
 
-[node name="LoadTrigger" type="Area2D" parent="LevelLoader/Node2D"]
+[node name="LoadTrigger" type="Area2D" parent="LevelLoader/Level1"]
+position = Vector2(0, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelLoader/Node2D/LoadTrigger"]
-position = Vector2(16066.5, 10260.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelLoader/Level1/LoadTrigger"]
+position = Vector2(21.75, 40)
 shape = SubResource("RectangleShape2D_e2brd")
+
+[node name="Level2" type="Node2D" parent="LevelLoader"]
+position = Vector2(32, 415)
+script = ExtResource("2_kf7ve")
+zone_path = "res://Game/TestLevels/test_level_1.tscn"
+
+[node name="LoadTrigger" type="Area2D" parent="LevelLoader/Level2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelLoader/Level2/LoadTrigger"]
+position = Vector2(9, -52)
+shape = SubResource("RectangleShape2D_kjb5c")
+debug_color = Color(0.72443, 0.460735, 0.3446, 0.42)
+
+[node name="Player" parent="." instance=ExtResource("4_o6p5h")]
+position = Vector2(-299, 96)
+scale = Vector2(0.63, 0.63)
