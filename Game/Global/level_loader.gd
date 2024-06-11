@@ -9,8 +9,10 @@ signal zone_removed(zone_name)
 
 # Словарь уровней в которых детектор уровней
 # игрока находится в данный момент
+#
+# Имеет два статуса: 1 - активно, 2 - в очереди на удалениеw
 var active_levels = {}
-
+enum level_states {ACTIVE, PENDING}
 
 func _ready():
 	# Соединить сигналы всех зон детекции уровней с методами менеджера уровней
@@ -31,8 +33,9 @@ func _ready():
 # загрузить сцену уровня в кэш и добавить к корневому ноду уровня
 func on_zone_entered(zone_name, zone_path):
 	if active_levels.has(zone_name):
+		active_levels[zone_name] = level_states.ACTIVE
 		return
-	active_levels[zone_name] = zone_path
+	active_levels[zone_name] = level_states.ACTIVE
 	
 	# Заменить на background resource loader - нужно
 	# продумать как использовать здесь таймер
@@ -53,7 +56,7 @@ func attach_zone(zone_name: String, level_instance):
 # Удаляет покинутую зону уровня из словаря уровней
 # и запускает таймер по истечении которого уровень будет удален
 func on_zone_exited(zone_name):
-	active_levels.erase(zone_name)
+	active_levels[zone_name] = level_states.PENDING
 	get_tree().create_timer(unload_delay).connect("timeout", Callable(self,"remove_zone").bind(zone_name))
 
 
@@ -63,7 +66,8 @@ func remove_zone(zone_name: String):
 	# Если игрок повторно не вошёл в зону детекции уровня,
 	# сцена уровня будет удалена
 	if active_levels.has(zone_name):
-		return
-		
-	get_node(zone_name).get_child(-1).queue_free()
-	emit_signal("zone_removed", zone_name)
+		if active_levels[zone_name] == level_states.PENDING:
+			active_levels.erase(zone_name)
+				
+			get_node(zone_name).get_child(-1).queue_free()
+			emit_signal("zone_removed", zone_name)
