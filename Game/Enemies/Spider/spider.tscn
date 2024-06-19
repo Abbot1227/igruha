@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhd8tewx3b4jf"]
+[gd_scene load_steps=10 format=3 uid="uid://bhd8tewx3b4jf"]
 
 [ext_resource type="Texture2D" uid="uid://lc6x52lf7ri3" path="res://Game/Enemies/Spider/spider.png" id="1_bgaxh"]
+[ext_resource type="Script" path="res://Game/Enemies/Spider/spider.gd" id="1_mvngc"]
 
 [sub_resource type="Shader" id="Shader_w5cnk"]
 code = "shader_type canvas_item;
@@ -119,6 +120,7 @@ _data = {
 radius = 159.003
 
 [node name="Spider" type="CharacterBody2D"]
+script = ExtResource("1_mvngc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_bgaxh")
@@ -127,6 +129,7 @@ vframes = 2
 frame = 1
 
 [node name="FakeShadow" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 0.152941)
 z_index = -1
 material = SubResource("ShaderMaterial_6kolp")
@@ -156,3 +159,5 @@ collision_mask = 2
 position = Vector2(8, -35)
 shape = SubResource("CircleShape2D_1tgfu")
 debug_color = Color(0.818869, 0.799711, 1.92523e-06, 0.42)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

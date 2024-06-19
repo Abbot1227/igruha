@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4k4ys7tampih"]
+
+[ext_resource type="Texture2D" uid="uid://c0fgsjdurk7jy" path="res://Game/Enemies/Nigger/nigger.png" id="1_ss4j0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eh2yb"]
+size = Vector2(117, 152)
+
+[node name="Nigger" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ss4j0")
+hframes = 9
+vframes = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(21.5, 101)
+shape = SubResource("RectangleShape2D_eh2yb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

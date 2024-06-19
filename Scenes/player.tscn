@@ -1116,7 +1116,7 @@ vframes = 11
 frame = 2
 
 [node name="TestCamera" type="Camera2D" parent="."]
-zoom = Vector2(4, 4)
+zoom = Vector2(8, 8)
 process_callback = 0
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
