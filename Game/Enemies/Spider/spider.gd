@@ -10,7 +10,7 @@ func _ready() -> void:
 	#set_target_location(Vector2(0.0, 0.0))
 
 
-func _physics_process(delta) -> void:
+func _physics_process(_delta) -> void:
 	#var direction = position.direction_to(nav_agent.get_next_path_position())
 	#velocity = direction * SPEED
 	#nav_agent.velocity = velocity

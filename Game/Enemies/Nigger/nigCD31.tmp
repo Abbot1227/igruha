@@ -1,0 +1,140 @@
+[gd_scene load_steps=16 format=3 uid="uid://c4k4ys7tampih"]
+
+[ext_resource type="Script" path="res://Game/Enemies/Nigger/nigger.gd" id="1_o67j3"]
+[ext_resource type="Texture2D" uid="uid://c0fgsjdurk7jy" path="res://Game/Enemies/Nigger/nigger.png" id="1_ss4j0"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_mdeqw"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_dqpa0"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_xm6pd"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_r3xe8"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="7_jyy31"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eh2yb"]
+size = Vector2(117, 152)
+
+[sub_resource type="Animation" id="Animation_xwfer"]
+resource_name = "idle_down"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_lgwlg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b7av8"]
+_data = {
+"RESET": SubResource("Animation_lgwlg"),
+"idle_down": SubResource("Animation_xwfer")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rslfl"]
+animation = &"idle_down"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cb27b"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vnjm5"]
+states/idle_down/node = SubResource("AnimationNodeAnimation_rslfl")
+states/idle_down/position = Vector2(415, 100)
+transitions = ["Start", "idle_down", SubResource("AnimationNodeStateMachineTransition_cb27b")]
+graph_offset = Vector2(-183, -40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yqv5f"]
+radius = 697.072
+
+[node name="Nigger" type="CharacterBody2D"]
+script = ExtResource("1_o67j3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ss4j0")
+hframes = 9
+vframes = 9
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(21.5, 101)
+shape = SubResource("RectangleShape2D_eh2yb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_b7av8")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_vnjm5")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+position = Vector2(0, 553)
+shape = SubResource("CircleShape2D_yqv5f")
+debug_color = Color(0.872813, 0.318099, 0.372436, 0.42)
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("2_mdeqw")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("3_dqpa0")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_xm6pd")
+
+[node name="ToChase" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("5_r3xe8")
+to = NodePath("../../Chase")
+event = &"player_entered"
+delay_in_seconds = "0.0"
+
+[node name="Chase" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_xm6pd")
+
+[node name="ToSpinAttack" type="Node" parent="StateChart/Root/Chase"]
+script = ExtResource("5_r3xe8")
+to = NodePath("../../SpinAttack")
+delay_in_seconds = "0.0"
+
+[node name="ToIdle" type="Node" parent="StateChart/Root/Chase"]
+script = ExtResource("5_r3xe8")
+to = NodePath("../../Idle")
+delay_in_seconds = "0.0"
+
+[node name="SpinAttack" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_xm6pd")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("7_jyy31")]
+offset_left = 474.0
+offset_top = 2.0
+offset_right = 1287.0
+offset_bottom = 581.0
+initial_node_to_watch = NodePath("../StateChart")
+
+[connection signal="area_entered" from="PlayerDetector" to="." method="_on_player_detector_area_entered"]
+[connection signal="state_entered" from="StateChart/Root/Chase" to="." method="_on_chase_state_entered"]

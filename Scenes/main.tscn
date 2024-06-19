@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://boomgfwv1jsnx"]
+[gd_scene load_steps=91 format=3 uid="uid://boomgfwv1jsnx"]
 
 [ext_resource type="Texture2D" uid="uid://b56cj2g6gae52" path="res://Sprites/Dungeon_Tileset.png" id="2_5ydum"]
 [ext_resource type="Texture2D" uid="uid://bpgcokyatmnfh" path="res://Sprites/trail.png" id="2_jdg1k"]
@@ -31,18 +31,13 @@
 [ext_resource type="Texture2D" uid="uid://b6g6uup21r62u" path="res://Sprites/house2.png" id="27_cp4o3"]
 [ext_resource type="PackedScene" uid="uid://caq6vidll35cq" path="res://Game/Objects/SaveFire/save_fire.tscn" id="30_xamag"]
 [ext_resource type="PackedScene" uid="uid://bhd8tewx3b4jf" path="res://Game/Enemies/Spider/spider.tscn" id="31_mxyl8"]
+[ext_resource type="PackedScene" uid="uid://c4k4ys7tampih" path="res://Game/Enemies/Nigger/nigger.tscn" id="32_ksacb"]
 
 [sub_resource type="Environment" id="Environment_d8jpa"]
 background_mode = 3
 tonemap_mode = 2
 tonemap_white = 14.2
 adjustment_enabled = true
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_j4w6x"]
-vertices = PackedVector2Array(254, -137, 253, -154, 532, -154, 533, 36, 42, 40, -86, 35, -85, 22, 197, -54, 119, 6, -98, -30, -177, -30, -178, -102, 196, -102, 118, 132, 41, 132, 203, 36, 201, 4, 215, -52, 233, -54, -99, 20, 234, -134)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11, 12, 7), PackedInt32Array(13, 14, 4, 8), PackedInt32Array(3, 15, 16, 17, 18), PackedInt32Array(19, 9, 7, 6), PackedInt32Array(16, 8, 7, 17), PackedInt32Array(0, 3, 18, 20)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-189, -113, 206, -112, 207, -63, 215, -62, 223, -63, 225, -144, 243, -146, 242, -164, 542, -164, 543, 46, 194, 46, 192, 14, 129, 16, 128, 142, 31, 142, 32, 50, -97, 45, -96, 31, -110, 29, -108, -20, -187, -21)])
-source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hmps"]
 texture = ExtResource("2_5ydum")
@@ -2778,15 +2773,18 @@ texture = ExtResource("2_jdg1k")
 [sub_resource type="TileSet" id="TileSet_ouv5d"]
 sources/0 = SubResource("TileSetAtlasSource_klm77")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_6fvt1"]
+vertices = PackedVector2Array(1026, 179, 656, 693, -335, 518, -343, -158, -316, -218, 588, -250)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-354, -160, -345, 527, 661, 705, 1040, 178, 592, -261, -323, -228)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
 [node name="Main" type="Node2D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_d8jpa")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_j4w6x")
-
-[node name="TestTileMap" type="TileMap" parent="NavigationRegion2D"]
+[node name="TestTileMap" type="TileMap" parent="."]
 z_index = -2
 tile_set = SubResource("TileSet_qk7ey")
 format = 2
@@ -3251,6 +3249,13 @@ position = Vector2(91, 111)
 [node name="Spider4" parent="." instance=ExtResource("31_mxyl8")]
 position = Vector2(12, 4.99998)
 scale = Vector2(0.1, 0.1)
+
+[node name="Nigger" parent="." instance=ExtResource("32_ksacb")]
+position = Vector2(6, 253)
+scale = Vector2(0.2, 0.2)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_6fvt1")
 
 [connection signal="area_entered" from="Spider/HurtBox" to="Spider" method="_on_hurt_box_area_entered"]
 [connection signal="area_entered" from="Spider3/HurtBox" to="Spider3" method="_on_hurt_box_area_entered"]
