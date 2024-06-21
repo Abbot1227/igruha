@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 40.0
+const SPEED = 50.0
 
 @onready var anim_tree: AnimationTree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
@@ -30,6 +30,11 @@ func _on_chase_state_physics_processing(_delta):
 	nav_agent.target_position = player.global_position
 	
 	if !nav_agent.is_target_reached():
+		if global_position.distance_squared_to(player.global_position) < 1400:
+			direction = Vector2.ZERO
+			state_chart.send_event("attack_ready")
+			return
+			
 		if nav_agent.is_target_reachable():
 			direction = global_position.direction_to(nav_agent.target_position)
 			velocity = direction * SPEED
@@ -38,6 +43,9 @@ func _on_chase_state_physics_processing(_delta):
 			anim_state.travel("Walk")
 			
 			move_and_slide()
+	#else:
+		#direction = Vector2.ZERO
+		#state_chart.send_event("attack_ready")
 
 
 func _on_player_detector_area_exited(_area):
@@ -45,9 +53,19 @@ func _on_player_detector_area_exited(_area):
 
 
 func _on_chase_state_exited():
-	print("exit")
-	player = null
 	# TODO Возможно, возвращать врага в его первоначальную точку
 	nav_agent.target_position = position
 	direction = Vector2.ZERO
+
+
+func _on_spin_attack_state_entered():
+	direction = global_position.direction_to(player.global_position)
+	
+	anim_tree.set("parameters/SpinAttack/blend_position", direction)
+	anim_state.travel("SpinAttack")
+
+
+func _on_idle_state_entered():
 	anim_state.travel("idle_down")
+	player_detector_collider.disabled = true
+	player_detector_collider.disabled = false
