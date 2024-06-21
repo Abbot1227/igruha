@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 
 @export var speed: float = 85
+@export var stamina: float = 100
+@export var recover_rate: float = 20
 var dash_speed: float = speed * 3
 const dash_duration: float = 0.2
 
@@ -26,11 +28,11 @@ var direction: Vector2
 func _ready() -> void:
 	pass
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	shadow_sprite.frame = sprite.frame
 	match current_state:
 		states.MOVE:
-			move()
+			move(delta)
 		states.JUMP:
 			jump()
 		states.ATTACK:
@@ -39,7 +41,7 @@ func _physics_process(_delta: float) -> void:
 func _process(_delta: float) -> void:
 	pass
 
-func move() -> void:	
+func move(delta: float) -> void:	
 	# Get movement direction and normalize it
 	direction = Input.get_vector("left", "right", "up", "down").normalized()
 	
@@ -57,9 +59,12 @@ func move() -> void:
 		animation_state.travel("Walk")
 		
 		velocity = direction * speed
+		stamina = max(0, stamina - recover_rate * delta)
 	else:
 		animation_tree.set("parameters/Idle/blend_position", direction)
 		animation_state.travel("Idle")
+		stamina = min(100, stamina + recover_rate * delta)
+		
 		velocity = Vector2.ZERO
 		
 	

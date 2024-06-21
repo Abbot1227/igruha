@@ -40,6 +40,23 @@ tracks/1/keys = {
 "values": [Vector2(691, -560)]
 }
 
+[sub_resource type="Animation" id="Animation_ajtqf"]
+resource_name = "death_down"
+length = 0.45
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [64, 65, 66, 67, 68, 69, 70, 71, 72]
+}
+
 [sub_resource type="Animation" id="Animation_xwfer"]
 resource_name = "idle_down"
 length = 0.6
@@ -101,6 +118,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45]
+}
+
+[sub_resource type="Animation" id="Animation_j25qu"]
+resource_name = "thrust_attack_down"
+length = 0.3
+step = 0.04
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10, 11, 12]
 }
 
 [sub_resource type="Animation" id="Animation_eo0ec"]
@@ -217,40 +251,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(7, -1130), Vector2(7, -1130)]
-}
-
-[sub_resource type="Animation" id="Animation_ajtqf"]
-resource_name = "death_down"
-length = 0.45
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [64, 65, 66, 67, 68, 69, 70, 71, 72]
-}
-
-[sub_resource type="Animation" id="Animation_j25qu"]
-resource_name = "thrust_attack_down"
-length = 0.3
-step = 0.04
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [6, 7, 8, 9, 10, 11, 12]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b7av8"]
@@ -385,6 +385,7 @@ delay_in_seconds = "0.0"
 [node name="ToDeath" type="Node" parent="StateChart/Root/Idle"]
 script = ExtResource("5_r3xe8")
 to = NodePath("../../Death")
+event = &"dead"
 delay_in_seconds = "0.0"
 
 [node name="Chase" type="Node" parent="StateChart/Root"]
@@ -405,6 +406,7 @@ delay_in_seconds = "2"
 [node name="ToDeath" type="Node" parent="StateChart/Root/Chase"]
 script = ExtResource("5_r3xe8")
 to = NodePath("../../Death")
+event = &"dead"
 delay_in_seconds = "0.0"
 
 [node name="SpinAttack" type="Node" parent="StateChart/Root"]

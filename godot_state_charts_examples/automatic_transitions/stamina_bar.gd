@@ -1,9 +1,8 @@
 extends ProgressBar
 
 
-@onready var the_frog = %TheFrog
+@onready var player: CharacterBody2D = $"../.."
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	value = the_frog.stamina
+func _process(_delta) -> void:
+	value = player.stamina
