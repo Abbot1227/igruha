@@ -1,8 +1,9 @@
-[gd_scene load_steps=87 format=3 uid="uid://vx7hm6ew4tcq"]
+[gd_scene load_steps=88 format=3 uid="uid://vx7hm6ew4tcq"]
 
 [ext_resource type="Script" path="res://Scripts/Player/player.gd" id="1_jd4l0"]
 [ext_resource type="Shader" path="res://Shaders/test_shaders/fake_shadow.gdshader" id="2_2ilt0"]
 [ext_resource type="Script" path="res://Scripts/Weapons/Weapon.gd" id="4_3whn1"]
+[ext_resource type="Texture2D" uid="uid://crybp76a1oofj" path="res://Game/Player/player.png" id="4_db7d8"]
 [ext_resource type="Texture2D" uid="uid://h6dneusoejwd" path="res://Sprites/Player/player.png" id="4_jsabj"]
 [ext_resource type="Script" path="res://Scenes/TestCameraShake.gd" id="4_kjon7"]
 [ext_resource type="Texture2D" uid="uid://dhobdujcc8sh2" path="res://Sprites/Effects/JumpDust/dust2.png" id="5_a7pvp"]
@@ -472,9 +473,8 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_mjwcq"]
 resource_name = "idle_down"
-length = 0.5
-loop_mode = 1
-step = 0.05
+length = 0.6
+loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -482,10 +482,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 117, 118, 117]
+"values": [0, 1, 2, 3, 4, 5]
 }
 
 [sub_resource type="Animation" id="Animation_44enl"]
@@ -761,8 +761,9 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_k7yvs"]
 resource_name = "walk_down"
-length = 0.9
+length = 0.65
 loop_mode = 1
+step = 0.075
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -770,16 +771,17 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3, 0.375, 0.45, 0.525, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+"values": [6, 7, 8, 9, 10, 11, 12, 13, 14]
 }
 
 [sub_resource type="Animation" id="Animation_jqwjd"]
 resource_name = "walk_left"
-length = 0.8
+length = 0.65
 loop_mode = 1
+step = 0.085
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -787,16 +789,17 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"times": PackedFloat32Array(0, 0.085, 0.17, 0.255, 0.34, 0.425, 0.51, 0.595),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [26, 27, 28, 29, 30, 31, 32, 33]
+"values": [31, 32, 33, 34, 35, 36, 37, 38]
 }
 
 [sub_resource type="Animation" id="Animation_h5qjf"]
 resource_name = "walk_right"
-length = 0.8
+length = 0.65
 loop_mode = 1
+step = 0.085
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -804,16 +807,17 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"times": PackedFloat32Array(0, 0.085, 0.17, 0.255, 0.34, 0.425, 0.51, 0.595),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [18, 19, 20, 21, 22, 23, 24, 25]
+"values": [23, 24, 25, 26, 27, 28, 29, 30]
 }
 
 [sub_resource type="Animation" id="Animation_esd3d"]
 resource_name = "walk_up"
-length = 0.8
+length = 0.65
 loop_mode = 1
+step = 0.085
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -821,10 +825,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"times": PackedFloat32Array(0, 0.085, 0.17, 0.255, 0.34, 0.425, 0.51, 0.595),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [10, 11, 12, 13, 14, 15, 16, 17]
+"values": [15, 16, 17, 18, 19, 20, 21, 22]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gptks"]
@@ -1090,6 +1094,7 @@ border_color = Color(0.0151629, 0.0795881, 0, 1)
 corner_detail = 2
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 1
 y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("1_jd4l0")
@@ -1116,13 +1121,13 @@ vframes = 11
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.08, 0.08)
-texture = ExtResource("4_jsabj")
-hframes = 12
-vframes = 11
+texture = ExtResource("4_db7d8")
+hframes = 15
+vframes = 14
 frame = 2
 
 [node name="TestCamera" type="Camera2D" parent="."]
-zoom = Vector2(4, 4)
+zoom = Vector2(6, 6)
 process_callback = 0
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
@@ -1190,9 +1195,9 @@ libraries = {
 [node name="TemporaryAudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_c521n")
 volume_db = 3.685
-autoplay = true
 
 [node name="TempStaminaBar" type="VBoxContainer" parent="."]
+visible = false
 offset_left = -239.0
 offset_top = -134.0
 offset_right = -101.0

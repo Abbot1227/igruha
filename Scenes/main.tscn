@@ -2780,6 +2780,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-354, -160, -345, 527, 
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [node name="Main" type="Node2D"]
+y_sort_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_d8jpa")
@@ -3251,6 +3252,7 @@ position = Vector2(12, 4.99998)
 scale = Vector2(0.1, 0.1)
 
 [node name="Nigger" parent="." instance=ExtResource("32_ksacb")]
+z_index = 1
 position = Vector2(-35, 24)
 scale = Vector2(0.11, 0.11)
 

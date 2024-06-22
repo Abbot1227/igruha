@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://c4k4ys7tampih"]
+[gd_scene load_steps=40 format=3 uid="uid://c4k4ys7tampih"]
 
 [ext_resource type="Script" path="res://Game/Enemies/Nigger/nigger.gd" id="1_o67j3"]
 [ext_resource type="Texture2D" uid="uid://c0fgsjdurk7jy" path="res://Game/Enemies/Nigger/nigger.png" id="1_ss4j0"]
@@ -306,6 +306,9 @@ blend_mode = 1
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rslfl"]
 animation = &"idle_down"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wycgx"]
+animation = &"thrust_attack_down"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gcbx7"]
 advance_mode = 2
 
@@ -317,21 +320,28 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_b3vio"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_etnuj"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_alqvt"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vnjm5"]
 states/End/position = Vector2(962, 100)
 states/SpinAttack/node = SubResource("AnimationNodeBlendSpace1D_aoo7g")
-states/SpinAttack/position = Vector2(705, 256)
+states/SpinAttack/position = Vector2(685, 266)
 states/Walk/node = SubResource("AnimationNodeBlendSpace2D_lliqs")
 states/Walk/position = Vector2(677, 88)
 states/idle_down/node = SubResource("AnimationNodeAnimation_rslfl")
 states/idle_down/position = Vector2(410, 88)
-transitions = ["Start", "idle_down", SubResource("AnimationNodeStateMachineTransition_gcbx7"), "idle_down", "Walk", SubResource("AnimationNodeStateMachineTransition_cv323"), "Walk", "idle_down", SubResource("AnimationNodeStateMachineTransition_7onaq"), "Walk", "SpinAttack", SubResource("AnimationNodeStateMachineTransition_s4nk5"), "SpinAttack", "Walk", SubResource("AnimationNodeStateMachineTransition_b3vio")]
-graph_offset = Vector2(-182, -21)
+states/thrust_attack_down/node = SubResource("AnimationNodeAnimation_wycgx")
+states/thrust_attack_down/position = Vector2(677, -105)
+transitions = ["Start", "idle_down", SubResource("AnimationNodeStateMachineTransition_gcbx7"), "idle_down", "Walk", SubResource("AnimationNodeStateMachineTransition_cv323"), "Walk", "idle_down", SubResource("AnimationNodeStateMachineTransition_7onaq"), "Walk", "SpinAttack", SubResource("AnimationNodeStateMachineTransition_s4nk5"), "SpinAttack", "Walk", SubResource("AnimationNodeStateMachineTransition_b3vio"), "Walk", "thrust_attack_down", SubResource("AnimationNodeStateMachineTransition_etnuj"), "thrust_attack_down", "Walk", SubResource("AnimationNodeStateMachineTransition_alqvt")]
+graph_offset = Vector2(-199, -193)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqv5f"]
 radius = 697.072
 
 [node name="Nigger" type="CharacterBody2D"]
+y_sort_enabled = true
 script = ExtResource("1_o67j3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -409,6 +419,12 @@ to = NodePath("../../Death")
 event = &"dead"
 delay_in_seconds = "0.0"
 
+[node name="ToThrustAttack" type="Node" parent="StateChart/Root/Chase"]
+script = ExtResource("5_r3xe8")
+to = NodePath("../../ThrustAttack")
+event = &"thrust_attack_ready"
+delay_in_seconds = "0.0"
+
 [node name="SpinAttack" type="Node" parent="StateChart/Root"]
 script = ExtResource("4_xm6pd")
 
@@ -424,12 +440,8 @@ script = ExtResource("4_xm6pd")
 [node name="ToIdle" type="Node" parent="StateChart/Root/ThrustAttack"]
 script = ExtResource("5_r3xe8")
 to = NodePath("../../Idle")
-delay_in_seconds = "0.0"
-
-[node name="ToChase" type="Node" parent="StateChart/Root/ThrustAttack"]
-script = ExtResource("5_r3xe8")
-to = NodePath("../../Chase")
-delay_in_seconds = "0.0"
+delay_in_seconds = "0.4
+"
 
 [node name="Death" type="Node" parent="StateChart/Root"]
 script = ExtResource("4_xm6pd")
@@ -451,3 +463,4 @@ initial_node_to_watch = NodePath("../StateChart")
 [connection signal="state_exited" from="StateChart/Root/Chase" to="." method="_on_chase_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Chase" to="." method="_on_chase_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/SpinAttack" to="." method="_on_spin_attack_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/ThrustAttack" to="." method="_on_thrust_attack_state_entered"]

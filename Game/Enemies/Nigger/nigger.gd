@@ -30,13 +30,19 @@ func _on_chase_state_physics_processing(_delta):
 	nav_agent.target_position = player.global_position
 	
 	if !nav_agent.is_target_reached():
+		var temp_condition: bool = global_position.direction_to(player.global_position).y > 0 && global_position.distance_squared_to(player.global_position) < 800 && global_position.direction_to(player.global_position).x < 0.5 && global_position.direction_to(player.global_position).x < -0.5
+		if temp_condition:
+			direction = Vector2.ZERO 
+			state_chart.send_event("thrust_attack_ready")
+			return
+			
 		if global_position.distance_squared_to(player.global_position) < 1400:
 			direction = Vector2.ZERO
 			state_chart.send_event("attack_ready")
 			return
 			
 		if nav_agent.is_target_reachable():
-			direction = global_position.direction_to(nav_agent.target_position)
+			direction = global_position.direction_to(nav_agent.get_next_path_position())
 			velocity = direction * SPEED
 			
 			anim_tree.set("parameters/Walk/blend_position", direction)
@@ -69,3 +75,7 @@ func _on_idle_state_entered():
 	anim_state.travel("idle_down")
 	player_detector_collider.disabled = true
 	player_detector_collider.disabled = false
+
+
+func _on_thrust_attack_state_entered():
+	anim_state.travel("thrust_attack_down")
