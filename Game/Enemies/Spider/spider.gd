@@ -1,42 +1,36 @@
 extends CharacterBody2D
 
-const SPEED = 90.0
 
-@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
-
-
-func _ready() -> void:
-	await get_tree().process_frame
-	#set_target_location(Vector2(0.0, 0.0))
+var movement_speed: float = 200.0
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 
 
-func _physics_process(_delta) -> void:
-	#var direction = position.direction_to(nav_agent.get_next_path_position())
-	#velocity = direction * SPEED
-	#nav_agent.velocity = velocity
+func _ready():
+	# These values need to be adjusted for the actor's speed
+	# and the navigation layout.
+	navigation_agent.path_desired_distance = 2.0
+	navigation_agent.target_desired_distance = 2.0
+	navigation_agent.debug_enabled = true
+
+
+# The "click" event is a custom input action defined in
+# Project > Project Settings > Input Map tab.
+func _unhandled_input(event):
+	if not event.is_action_pressed("click"):
+		return
+	set_movement_target(get_global_mouse_position())
 	
-	if nav_agent.is_target_reachable():
-		var next_location = nav_agent.target_position
-		var direction = global_position.direction_to(next_location)
-		#global_position += direction * delta * SPEED
-		velocity = direction * SPEED
-		move_and_slide()
-		
-	if Input.is_action_pressed("leftClick"):
-		nav_agent.target_position = get_global_mouse_position()
-
-
-func on_save_game(saved_data: Array[SavedData]):
-	var data = SavedData.new()
-	data.position = global_position
-	data.scene_path = "res://Game/Enemies/Spider/spider.tscn"
 	
-	saved_data.append(data)
+func set_movement_target(movement_target: Vector2):
+	navigation_agent.target_position = movement_target
 
 
-func set_target_location(target: Vector2) -> void:
-	nav_agent.target_position = target
+func _physics_process(_delta):
+	if navigation_agent.is_navigation_finished():
+		return
 
+	var current_agent_position: Vector2 = global_position
+	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 
-func _arrived_at_location() -> bool:
-	return nav_agent.is_navigation_finished()
+	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
+	move_and_slide()

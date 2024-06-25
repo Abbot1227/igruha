@@ -335,7 +335,7 @@ states/idle_down/position = Vector2(410, 88)
 states/thrust_attack_down/node = SubResource("AnimationNodeAnimation_wycgx")
 states/thrust_attack_down/position = Vector2(677, -105)
 transitions = ["Start", "idle_down", SubResource("AnimationNodeStateMachineTransition_gcbx7"), "idle_down", "Walk", SubResource("AnimationNodeStateMachineTransition_cv323"), "Walk", "idle_down", SubResource("AnimationNodeStateMachineTransition_7onaq"), "Walk", "SpinAttack", SubResource("AnimationNodeStateMachineTransition_s4nk5"), "SpinAttack", "Walk", SubResource("AnimationNodeStateMachineTransition_b3vio"), "Walk", "thrust_attack_down", SubResource("AnimationNodeStateMachineTransition_etnuj"), "thrust_attack_down", "Walk", SubResource("AnimationNodeStateMachineTransition_alqvt")]
-graph_offset = Vector2(-199, -193)
+graph_offset = Vector2(-205, -23)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqv5f"]
 radius = 697.072
@@ -447,6 +447,8 @@ delay_in_seconds = "0.4
 script = ExtResource("4_xm6pd")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+debug_enabled = true
 
 [node name="StateChartDebugger" parent="." instance=ExtResource("7_jyy31")]
 visible = false

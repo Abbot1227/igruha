@@ -14,7 +14,6 @@ var direction: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	await get_tree().process_frame
-	nav_agent.target_position = position
 
 
 func _on_player_detector_area_entered(_area):

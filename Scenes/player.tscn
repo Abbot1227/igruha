@@ -1098,6 +1098,7 @@ z_index = 1
 y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("1_jd4l0")
+speed = 80.0
 
 [node name="ZoneTriggerr" type="Area2D" parent="."]
 collision_layer = 512
@@ -1130,9 +1131,9 @@ frame = 2
 zoom = Vector2(6, 6)
 process_callback = 0
 position_smoothing_enabled = true
-drag_horizontal_enabled = true
-drag_vertical_enabled = true
 script = ExtResource("4_kjon7")
+
+[node name="ShakeTimer" type="Timer" parent="TestCamera"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -1209,4 +1210,5 @@ theme_override_styles/background = SubResource("StyleBoxFlat_maklk")
 show_percentage = false
 script = ExtResource("9_kn2mi")
 
+[connection signal="timeout" from="TestCamera/ShakeTimer" to="TestCamera" method="_on_shake_timer_timeout"]
 [connection signal="area_entered" from="Weapon" to="Weapon" method="_on_area_entered"]
